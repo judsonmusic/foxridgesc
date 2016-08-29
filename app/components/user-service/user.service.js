@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', '@angular/http', "../auth/auth.service"], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', '@angular/http', "../auth/auth.service", "../../../node_modules/rxjs/src/Subject"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router', '@angular/http', "../auth/a
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, http_1, auth_service_1;
+    var core_1, router_1, http_1, auth_service_1, Subject_1;
     var UserService;
     return {
         setters:[
@@ -25,22 +25,21 @@ System.register(['@angular/core', '@angular/router', '@angular/http', "../auth/a
             },
             function (auth_service_1_1) {
                 auth_service_1 = auth_service_1_1;
+            },
+            function (Subject_1_1) {
+                Subject_1 = Subject_1_1;
             }],
         execute: function() {
-            //import {Observable} from "rxjs";
             UserService = (function () {
-                //user:Subject<any>;
-                //user$:Observable<any>;
-                //loggedIn = new Subject<any>();
-                //loggedIn$:Observable<any>;
                 function UserService(http, authService, router) {
-                    //this.user = new Subject();
-                    //this.user$ = this.user.asObservable();
-                    //this.loggedIn = new Subject();
-                    //this.loggedIn$ = this.loggedIn.asObservable();
                     this.http = http;
                     this.authService = authService;
                     this.router = router;
+                    this.loggedIn = new Subject_1.Subject();
+                    this.user = new Subject_1.Subject();
+                    this.user$ = this.user.asObservable();
+                    this.loggedIn = new Subject_1.Subject();
+                    this.loggedIn$ = this.loggedIn.asObservable();
                 }
                 UserService.prototype.getUser = function () {
                     var _this = this;
@@ -59,9 +58,9 @@ System.register(['@angular/core', '@angular/router', '@angular/http', "../auth/a
                         else {
                             console.log('USER FOUND!', res);
                             _this.authService.isLoggedIn = true;
-                            //this.loggedIn.next(true);
+                            _this.loggedIn.next(true);
                             _this.userData = res;
-                            //this.user.next(res);
+                            _this.user.next(res);
                             return res;
                         }
                     }, function (error) { return console.log('There was an error', error); });
@@ -77,7 +76,7 @@ System.register(['@angular/core', '@angular/router', '@angular/http', "../auth/a
                         if (res['account']) {
                             console.log('Account created!', res["account"]);
                             _this.authService.isLoggedIn = true;
-                            //this.loggedIn.next(true);
+                            _this.loggedIn.next(true);
                             _this.userData = res["account"];
                             //this.user$ = res;
                             //this.user.next('test');
@@ -101,9 +100,9 @@ System.register(['@angular/core', '@angular/router', '@angular/http', "../auth/a
                             localStorage.setItem('jwt', res.token);
                             localStorage.setItem('_id', res.user[0]._id);
                             //set user service info...
-                            //this.loggedIn.next(true);
+                            _this.loggedIn.next(true);
                             _this.userData = res.user[0];
-                            //this.user.next(res.user[0]);
+                            _this.user.next(res.user[0]);
                             return res;
                         }
                         else {
@@ -115,7 +114,7 @@ System.register(['@angular/core', '@angular/router', '@angular/http', "../auth/a
                     localStorage.clear();
                     this.userData = null;
                     this.authService.isLoggedIn = false;
-                    //this.loggedIn.next(false);
+                    this.loggedIn.next(false);
                 };
                 UserService.prototype.updateAccount = function (user) {
                     var headers = new http_1.Headers();

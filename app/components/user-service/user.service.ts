@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router }      from '@angular/router';
 import { Http, Headers } from '@angular/http';
 import {AuthService} from "../auth/auth.service";
-//import {Observable} from "rxjs";
+import {Subject} from "../../../node_modules/rxjs/src/Subject";
+import {Observable} from "../../../node_modules/rxjs/src/Observable";
 
 
 
@@ -10,18 +11,18 @@ import {AuthService} from "../auth/auth.service";
 export class UserService{
 
   userData:any;
-  //user:Subject<any>;
-  //user$:Observable<any>;
-  //loggedIn = new Subject<any>();
-  //loggedIn$:Observable<any>;
+  user:Subject<any>;
+  user$:Observable<any>;
+  loggedIn = new Subject<boolean>();
+  loggedIn$:Observable<any>;
 
 
   constructor(private http:Http, public authService:AuthService, public router:Router) {
 
-    //this.user = new Subject();
-    //this.user$ = this.user.asObservable();
-    //this.loggedIn = new Subject();
-    //this.loggedIn$ = this.loggedIn.asObservable();
+    this.user = new Subject();
+    this.user$ = this.user.asObservable();
+    this.loggedIn = new Subject();
+    this.loggedIn$ = this.loggedIn.asObservable();
 
 
   }
@@ -45,9 +46,9 @@ export class UserService{
           }else {
             console.log('USER FOUND!', res);
             this.authService.isLoggedIn = true;
-            //this.loggedIn.next(true);
+            this.loggedIn.next(true);
             this.userData = res;
-            //this.user.next(res);
+            this.user.next(res);
 
             return res;
           }
@@ -71,7 +72,7 @@ export class UserService{
         if (res['account']) {
           console.log('Account created!', res["account"]);
           this.authService.isLoggedIn = true;
-          //this.loggedIn.next(true);
+          this.loggedIn.next(true);
           this.userData = res["account"];
           //this.user$ = res;
           //this.user.next('test');
@@ -104,9 +105,9 @@ export class UserService{
             localStorage.setItem('jwt', res.token);
             localStorage.setItem('_id', res.user[0]._id);
             //set user service info...
-            //this.loggedIn.next(true);
+            this.loggedIn.next(true);
             this.userData = res.user[0];
-            //this.user.next(res.user[0]);
+            this.user.next(res.user[0]);
             return res;
 
 
@@ -123,7 +124,7 @@ export class UserService{
     localStorage.clear();
     this.userData = null;
     this.authService.isLoggedIn = false;
-    //this.loggedIn.next(false);
+    this.loggedIn.next(false);
   }
 
   updateAccount(user) {
