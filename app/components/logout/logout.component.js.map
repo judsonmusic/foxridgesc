@@ -1,0 +1,1 @@
+{"version":3,"file":"logout.component.js","sourceRoot":"","sources":["logout.component.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;YAOA;gBAEE,yBAAoB,WAAwB;oBAAxB,gBAAW,GAAX,WAAW,CAAa;oBAE1C,WAAW,CAAC,MAAM,EAAE,CAAC;gBAEvB,CAAC;gBAVH;oBAAC,gBAAS,CAAC;wBACT,QAAQ,EAAE,QAAQ;wBAClB,WAAW,EAAE,6CAA6C;qBAC3D,CAAC;;mCAAA;gBAQF,sBAAC;YAAD,CAAC,AAPD,IAOC;YAPD,6CAOC,CAAA"}

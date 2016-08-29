@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="74ef5358-3f1b-4c01-8fcf-404069cbc5f5" name="foxridge" url="http://foxridgesc.com">
+        <fileTransfer port="0" mountedRoot="/Volumes/wwwroot/foxridgesc" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>
