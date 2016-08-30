@@ -4,12 +4,13 @@ import { AuthService } from "../auth/auth.service";
 import { Http, Headers } from '@angular/http';
 import { UserService } from "../user-service/user.service";
 import {AlertComponent} from '../../../node_modules/ng2-bootstrap/ng2-bootstrap';
+import {LowercaseDirective} from "../pipes/lowercase.pipe";
 
 @Component({
 
   selector:'login-component',
   templateUrl: '/app/components/login/login.component.html',
-  directives: [AlertComponent]
+  directives: [AlertComponent, LowercaseDirective]
 })
 
 export class LoginComponent {

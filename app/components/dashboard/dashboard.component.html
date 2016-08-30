@@ -13,8 +13,12 @@
         <div class="panel panel-default">
             <div class="panel-heading"><h4 class="panel-title">Neighbors</h4></div>
             <div class="panel-body">
-                <li *ngFor="let item of profiles">
-                    <a href="javascript:void(0);" (click)="viewFamily(item._id)">The {{item.lastName}} Family</a>
+                <li *ngFor="let item of profiles" style="border: 1px solid #efefef; padding: 3px; margin-bottom: 3px; clear: both; height: 66px;">
+                    <a href="javascript:void(0);" (click)="viewFamily(item._id)">
+                        <div class="img_thumb" style="float: left; width: 60px; height: 60px; margin-right: 5px; border: 1px solid #efefef; color: #ffffff; text-align: center; background-color: #999999">
+                            <div *ngIf="!item.image">No<br/>Image</div>
+                            <img src="/app/uploads/{{item.image}}" align="absmiddle" style="max-width: 60px;" *ngIf="item.image"/>
+                        </div>The {{item.lastName}} Family</a>
                 </li>
             </div>
         </div>
@@ -53,14 +57,4 @@
         </div>
     </div>
 </div>
-<!--<div>
-<form name="upload!"
-      ref="uploadForm"
-      id="uploadForm"
-      action="http://localhost:3004/upload"
-      method="post" enctype="multipart/form-data" (submit)="uploadFile($event)">
-     <input type="file" name="sampleFile" (change)="setFiles($event)"/>
-    <button type="submit" value="Upload!">Upload!</button>
-</form>
-</div>-->
 

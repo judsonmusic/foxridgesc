@@ -3,95 +3,127 @@
 <div *ngIf="!editMode" class="profile-box">
     <div class="row">
         <div class="col-md-6 col-lg-4">
-            <div class="home-image"><i class="fa fa-home" aria-hidden="true"></i></div>
+            <div class="home-image text-center">
+                <img src="/app/uploads/{{user.image}}" style="max-width: 100%" *ngIf="user.image"/>
+            </div>
         </div>
         <div class="col-md-6">
             <h4>{{user.familyName}}</h4>
             <hr>
-           <table>
-               <tr>
-                   <td>Address</td>
-                   <td>{{user.address1}}<br>{{user.city}}, {{user.state}} {{user.zip}}</td>
-               </tr>
-               <tr>
-                   <td>Phone</td>
-                   <td>{{user.phone}}</td>
-               </tr>
-               <tr>
-                   <td>Activities</td>
-                   <td>{{user.activities}}</td>
-               </tr>
-           </table>
+            <table>
+                <tr>
+                    <td>Address</td>
+                    <td>{{user.address1}}<br>{{user.city}}, {{user.state}} {{user.zip}}</td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td>{{user.phone}}</td>
+                </tr>
+                <tr>
+                    <td>Activities</td>
+                    <td>{{user.activities}}</td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
 
 <div *ngIf="editMode">
-    <form class="form" novalidate (submit)="updateAccount(user)">
-        <div class="form-group row">
-            <div class="col-md-3">
-                <label>First Name</label>
-                <input class="form-control" type="text" name="firstName" [(ngModel)]="user.firstName" placeholder="First Name"/>
-            </div>
-            <div class="col-md-3">
-                <label>Last Name</label>
-                <input class="form-control" type="text" name="lastName" [(ngModel)]="user.lastName" placeholder="Last Name"/>
-            </div>
-            <div class="col-md-3">
-                <label>Email</label>
-                <input class="form-control" type="text" name="email" [(ngModel)]="user.email" placeholder="Email"/>
-            </div>
-            <div class="col-md-3">
-
-                <label>Password</label>
-                <input class="form-control" type="password" name="password" [(ngModel)]="user.password" placeholder="Password"/>
-            </div>
+    <div class="row">
+        <div class="col-md-6" style="padding: 20px;">
+            <img *ngIf="!file" src="/app/uploads/{{user.image}}" style="max-width: 100%;"/>
+            <img *ngIf="file" [src]="file" style="max-width: 100%;"/>
         </div>
 
-        <div class="form-group row">
-            <div class="col-md-4">
-                <label>Family Name</label>
-                <input class="form-control" type="text" name="familyName" [(ngModel)]="user.familyName" placeholder="Family Name (The Smith Family)"/>
-            </div>
-        </div>
+        <div class="col-md-6" style="padding: 20px;">
+            <form name="upload"
+                  ref="uploadForm"
+                  id="uploadForm"
+                  action="http://localhost:3004/upload"
+                  method="post" enctype="multipart/form-data" (submit)="uploadFile($event)">
+                <input type="file" name="sampleFile" (change)="setFiles($event)" style="display: none;"/>
+                <div style="padding: 20px;">
+                <p *ngIf="uploadComplete" style="color: forestgreen; font-size: 20px;">Image Updated!<br/>If you are finished, simply click I'm Done.</p>
+                <p *ngIf="!uploadComplete && files" style="color: forestgreen; font-size: 20px;">Image Updated!<br/>Like this image? Click save!</p>
 
-        <div class="form-group row">
-            <div class="col-md-3">
-                <label>Street</label>
-                <input class="form-control" type="text" name="address1" [(ngModel)]="user.address1" placeholder="Address 1"/>
-            </div>
-            <div class="col-md-3">
-                <label>City</label>
-                <input class="form-control" type="text" name="city" [(ngModel)]="user.city" placeholder="City"/>
-            </div>
-            <div class="col-md-3">
-                <label>State</label>
-                <input class="form-control" type="text" name="state" [(ngModel)]="user.state" placeholder="State"/>
-            </div>
-            <div class="col-md-3">
-                <label>Zip</label>
-                <input class="form-control" type="text" name="zip" [(ngModel)]="user.zip" placeholder="Zip"/>
-            </div>
-        </div>
+                <button class="btn btn-primary pull-right" type="button" *ngIf="!files" onclick="upload.sampleFile.click()">Choose an Image</button>
+                <button class="btn btn-primary pull-right" style="margin-right: 20px;" type="button" *ngIf="uploadComplete" (click)="editMode = false; uploadComplete = false; files = null;">I'm Done :)</button>
+                <button class="btn btn-primary pull-right" type="submit" *ngIf="files">Save</button>
 
-        <div class="form-group row">
-            <div class="col-md-4">
-                <label>Phone</label>
-                <input class="form-control" type="text" name="phone" [(ngModel)]="user.phone" placeholder="Phone"/>
-            </div>
-        </div>
+                </div>
 
-        <div class="form-group row">
-            <div class="col-md-4">
-                <label>Activities</label>
-                <textarea class="form-control" type="text" name="activities" [(ngModel)]="user.activities" placeholder="Favorite Activities (Biking, Swimming, etc.)" style="width: 100%; min-height: 140px;"></textarea>
-            </div>
+            </form>
         </div>
-        <div class="form-group row">
-            <div class="col-md-4">
-                <button class="btn btn-primary" type="submit">Update Account</button>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form" novalidate (submit)="updateAccount(user)">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label>First Name</label>
+                        <input class="form-control" type="text" name="firstName" [(ngModel)]="user.firstName" placeholder="First Name"/>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Last Name</label>
+                        <input class="form-control" type="text" name="lastName" [(ngModel)]="user.lastName" placeholder="Last Name"/>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Email</label>
+                        <input class="form-control" type="text" name="email" [(ngModel)]="user.email" placeholder="Email" lowercase/>
+                    </div>
+                    <div class="col-md-3">
+
+                        <label>Password</label>
+                        <input class="form-control" type="password" name="password" [(ngModel)]="user.password" placeholder="Password"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label>Family Name</label>
+                        <input class="form-control" type="text" name="familyName" [(ngModel)]="user.familyName" placeholder="Family Name (The Smith Family)"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label>Street</label>
+                        <input class="form-control" type="text" name="address1" [(ngModel)]="user.address1" placeholder="Address 1"/>
+                    </div>
+                    <div class="col-md-3">
+                        <label>City</label>
+                        <input class="form-control" type="text" name="city" [(ngModel)]="user.city" placeholder="City"/>
+                    </div>
+                    <div class="col-md-3">
+                        <label>State</label>
+                        <input class="form-control" type="text" name="state" [(ngModel)]="user.state" placeholder="State"/>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Zip</label>
+                        <input class="form-control" type="text" name="zip" [(ngModel)]="user.zip" placeholder="Zip"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label>Phone</label>
+                        <input class="form-control" type="text" name="phone" [(ngModel)]="user.phone" placeholder="Phone"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label>Activities</label>
+                        <textarea class="form-control" type="text" name="activities" [(ngModel)]="user.activities" placeholder="Favorite Activities (Biking, Swimming, etc.)" style="width: 100%; min-height: 140px;"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" type="submit">Update Account</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 
