@@ -1,0 +1,27 @@
+<div *ngIf="family">
+<h2>{{family.familyName}}</h2>
+<hr/>
+<div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-4">
+        <div class="home-image"><i class="fa fa-home" aria-hidden="true"></i></div>
+    </div>
+    <div class="col-md-6">
+        <table>
+            <tr>
+                <td>Address</td>
+                <td *ngIf="family.address1">{{family.address1}}<br>{{family.city}}, {{family.state}} {{family.zip}}</td>
+                <td *ngIf="!family.address1">Not Provided</td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td>{{family.phone || 'Not Provided'}}</td>
+            </tr>
+            <tr>
+                <td>Activities</td>
+                <td>{{family.activities || 'Not Provided'}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</div>
+

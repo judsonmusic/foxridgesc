@@ -72,6 +72,30 @@ export class UserService {
 
     }
 
+    getFamily(id) {
+
+        let headers = new Headers();
+
+        headers.append('x-access-token', localStorage['jwt']);
+
+        return this.http
+            .get('/api/family/' + id, {headers: headers})
+            .map(res => res.json())
+            .map((res) => {
+
+                if (!res._id) {
+
+                    console.log('***THERE WAS AN ERROR!');
+
+                } else {
+
+                    return res;
+                }
+
+            }, (error) => console.log('There was an error', error));
+
+    }
+
     checkForDups(user) {
 
         return this.http
@@ -188,6 +212,46 @@ export class UserService {
                 return res;
 
             });
+    }
+
+    uploadFile(files: File[]):Promise<any> {
+
+
+
+        return new Promise((resolve, reject) => {
+            let formData: FormData = new FormData(),
+                xhr: XMLHttpRequest = new XMLHttpRequest();
+
+            formData.append("sampleFile", files[0], files[0].name);
+            formData.append("id", localStorage.getItem('_id'));
+
+            // for (let i = 0; i < files.length; i++) {
+            //     formData.append("uploads[]", files[i], files[i].name);
+            // }
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        resolve(JSON.parse(xhr.response));
+                    } else {
+                        reject(xhr.response);
+                    }
+                }
+            };
+
+
+            xhr.upload.onprogress = (event) => {
+
+                console.log(event);
+                //this.progress = Math.round(event.loaded / event.total * 100);
+
+                //this.progressObserver.next(this.progress);
+            };
+
+            xhr.open('POST', '/upload', true);
+            console.log('UPLOADING!: ', formData);
+            xhr.send(formData);
+        });
     }
 
 }

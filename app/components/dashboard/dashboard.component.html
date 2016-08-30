@@ -1,4 +1,4 @@
-<h1>Your Dashboard</h1>
+<h2>Your Dashboard</h2>
 <hr/>
 <div class="row">
     <div class="col-md-8">
@@ -14,7 +14,7 @@
             <div class="panel-heading"><h4 class="panel-title">Neighbors</h4></div>
             <div class="panel-body">
                 <li *ngFor="let item of profiles">
-                    <a href="javascript:void(0);" target="_blank">{{item.familyName || item.lastName}}</a>
+                    <a href="javascript:void(0);" (click)="viewFamily(item._id)">The {{item.lastName}} Family</a>
                 </li>
             </div>
         </div>
@@ -53,4 +53,14 @@
         </div>
     </div>
 </div>
+<!--<div>
+<form name="upload!"
+      ref="uploadForm"
+      id="uploadForm"
+      action="http://localhost:3004/upload"
+      method="post" enctype="multipart/form-data" (submit)="uploadFile($event)">
+     <input type="file" name="sampleFile" (change)="setFiles($event)"/>
+    <button type="submit" value="Upload!">Upload!</button>
+</form>
+</div>-->
 

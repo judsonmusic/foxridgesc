@@ -11,6 +11,7 @@ export class ProfileComponent implements OnInit {
 
   user: any;
   loggedIn: any;
+  editMode: boolean;
 
   constructor(private userService: UserService, public authService: AuthService, public router: Router) {
 
@@ -38,6 +39,7 @@ export class ProfileComponent implements OnInit {
       console.log('Some result!', result);
       if (result) {
         console.log('Account Updated Succesfully!', result);
+        this.editMode = !this.editMode;
         alert('Account Updated!');
       }
     });

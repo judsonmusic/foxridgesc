@@ -8,9 +8,20 @@ hr {
   margin-bottom: 10px;
 }
 
+h2{
+
+    margin-top: 0;
+}
+
 p {
 
   padding: 10px 20px;
+}
+
+table tr td{
+
+  vertical-align: top;
+  padding: 10px;
 }
 
 ul, li {
@@ -170,6 +181,7 @@ footer {
 .panel-body {
 
   min-height: 178px;
+  position: relative;
 }
 
 .questions {
@@ -376,6 +388,35 @@ ul.swatch-list{
 .swatch.swatch-purple {
 
   background: #6c69e7;
+
+}
+
+.profile-box{
+
+  position: relative;
+}
+
+
+.family-image{
+
+
+  background: #efefef;
+  min-height: 100px;
+
+
+}
+
+.home-image i, .family-image i{
+
+  font-size: 230px;
+  margin: 0 auto;
+  display: table;
+}
+.home-image{
+
+
+  background: grey;
+  min-height: 240px;
 
 }
 
