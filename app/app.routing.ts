@@ -6,6 +6,8 @@ import {ResourcesComponent} from "./components/resources/resources.component";
 import {LogoutComponent} from "./components/logout/logout.component";
 import { authProviders }      from './login.routing';
 import {LoginComponent} from "./components/login/login.component";
+import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {AuthGuard} from "./components/auth/auth-guard.service";
 
 
 const appRoutes:Routes = [
@@ -13,6 +15,7 @@ const appRoutes:Routes = [
   { path: 'logout', component: LogoutComponent },
   { path: 'resources', component: ResourcesComponent},
   { path: 'about', component: AboutComponent},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent},
   { path: '**', component: PageNotFoundComponent}
 ];

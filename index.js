@@ -4,6 +4,7 @@ var express = require('express');
 var http = require('http');
 var open = require('open');
 var path = require('path');
+var fs = require('fs');
 var morgan = require('morgan'); // formerly express.logger
 var errorhandler = require('errorhandler');
 var bodyParser = require('body-parser');
@@ -125,56 +126,6 @@ router.use(function (req, res, next) {
 });
 ///////////////////////////////////////////////////////////////
 
-router.route('/reports/:question_id/:sub_index')
-  .get(function(req, res, next){
-
-
-    console.log(req.params.question_id);
-
-    var matchStage = { "$match": { "assessment.id": +req.params.question_id} };//1 would be nutrition
-
-    var query = [
-
-      [
-        matchStage,
-        {$unwind: "$assessment"},
-        matchStage,
-        {$project: {
-          id: "$assessment.id",
-          answer: "$assessment.answer",
-          subs: {"$avg" : {$slice : ["$assessment.subs" , +req.params.sub_index, 1]}}
-        }}
-      ]
-      // {$unwind: "$assessment"},
-      // {$unwind: "$assessment.subs"},
-      //
-      // // group back into single docs, projecting the first and last
-      // // coordinates as lng and lat, respectively
-      // matchStage,
-      // {$group: {
-      //   _id: "$_id",
-      //   lng: {$first: "$assessment.subs"}//first is how balanced you are.
-      // }},
-      // // then group as normal for the averaging
-      // {$group: {
-      //   _id: 0,
-      //   lngAvg: {$avg: "$lng"}
-      // }}
-    ];
-
-    Account.aggregate(query, function (err, result) {
-      if (err)
-        res.send(err);
-
-      res.json(result);
-      res.end();
-    });
-
-  });
-//end reports
-
-
-
 
 
 router.route('/accounts')
@@ -182,10 +133,28 @@ router.route('/accounts')
   // get all the accounts (accessed at GET http://localhost:8080/api/accounts)
   .get(function (req, res) {
     Account.find(function (err, accounts) {
-      if (err)
+      if (err) {
         res.send(err);
+      }else {
 
-      res.json(accounts);
+        var profiles = [];
+
+        accounts.map(function (x) {
+
+          if(typeof x.familyName != 'undefined') profiles.push(x);
+
+        });
+
+        accounts.map(function (x) {
+
+          if(typeof x.familyName == 'undefined') profiles.push(x);
+
+        });
+
+        res.json(profiles);
+      }
+
+
     });
   })
   // create a account (accessed at POST http://localhost:8080/api/accounts)
@@ -200,9 +169,8 @@ router.route('/accounts')
     account.username = req.body.username;
     account.password = req.body.password;
     account.assessment = req.body.assessment;
-    //account.monthlyExpenses = req.body.monthlyExpenses;
-    //account.date = req.body.date;
-    console.log('SENDING: ', account);
+
+
 
     // save the bear and check for errors
     account.save(function (err) {
@@ -245,9 +213,16 @@ router.route('/accounts/:account_id')
       account.email = req.body.email;
       account.username = req.body.username;
       account.password = req.body.password;
-      account.monthlyExpenses = req.body.monthlyExpenses;
       account.date = req.body.date;
-      account.assessment = req.body.assessment;
+      account.familyName = req.body.familyName || "";
+      account.address1 = req.body.address1 || "";
+      account.address2 = req.body.address2 || "";
+      account.city = req.body.city || "";
+      account.state = req.body.state || "";
+      account.zip = req.body.zip || "";
+      account.phone = req.body.phone || "";
+      account.activities = req.body.activities || "";
+
 
       // save the account
       account.save(function (err, account) {
@@ -272,6 +247,55 @@ router.route('/accounts/:account_id')
       res.json({message: 'Successfully deleted'}).end;
     });
   });
+
+
+
+
+router.route('/checkdups/:email')
+
+// get all the accounts (accessed at GET http://localhost:8080/api/accounts)
+    .get( function (req, res) {
+
+      console.log('CHECKING FOR DUPS!', req.params.email);
+
+      Account.find({ email: req.params.email },function (err, accounts) {
+        if (err) {
+          res.send(err);
+        }else {
+
+          var profiles = [];
+
+          // accounts.map(function (x) {
+          //
+          //   if(typeof x.familyName != 'undefined') profiles.push(x);
+          //
+          // });
+
+          res.json(accounts.length);
+        }
+
+
+      });
+    });
+
+
+router.route('/files')
+
+.get(function(req, res){
+  var myfiles = [];
+  fs.readdir('./app/docs', function (err, files) { if (err) throw err;
+    files.forEach( function (file) {
+      myfiles.push(file);
+    });
+    console.log('The files: ', myfiles);
+    res.json({message: 'success', files: myfiles}).end;
+  });
+
+
+
+
+
+});
 
 
 /**SERVER*************************************/

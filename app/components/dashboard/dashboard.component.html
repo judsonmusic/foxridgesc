@@ -1,0 +1,56 @@
+<h1>Your Dashboard</h1>
+<hr/>
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4 class="panel-title">My Profile</h4></div>
+            <div class="panel-body">
+              <profile-component></profile-component>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4 class="panel-title">Neighbors</h4></div>
+            <div class="panel-body">
+                <li *ngFor="let item of profiles">
+                    <a href="javascript:void(0);" target="_blank">{{item.familyName || item.lastName}}</a>
+                </li>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4 class="panel-title">Documents</h4></div>
+            <div class="panel-body">
+                <ol>
+                    <li *ngFor="let item of documents">
+                        <a href="/app/docs/{{item}}" target="_blank">{{item}}</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4 class="panel-title">Events</h4></div>
+            <div class="panel-body">
+               <ul>
+                   <li>Saturday, September 10, 2016 @ 7pm<br>
+                   <strong>FoxRidge Ladies Bunco Night!</strong></li>
+               </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4 class="panel-title">News!!</h4></div>
+            <div class="panel-body">
+               Coming Soon!
+            </div>
+        </div>
+    </div>
+</div>
+

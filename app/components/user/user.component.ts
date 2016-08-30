@@ -11,6 +11,7 @@ export class UserComponent {
 
   user: any;
   loggedIn: any;
+  message: String;
 
   constructor(private userService: UserService, public authService: AuthService, public router: Router) {
 
@@ -37,11 +38,12 @@ export class UserComponent {
 
   addAccount(user) {
 
-    this.userService.createAccount(user).subscribe((result) => {
-      //console.log('The result from creating account: ', result);
-      if (result) {
+    this.userService.createAccount(user).then((result) => {
 
-        //console.log('Account Created Succesfully!', result.account);
+
+     if(result){
+
+        //console.log('Account Created Succesfully!', result['account']);
 
         this.userService.login(result['account']).subscribe((result) => {
 
@@ -50,13 +52,21 @@ export class UserComponent {
           //onsole.log(this.authService.isLoggedIn);
           // Get the redirect URL from our auth service
           // If no redirect has been set, use the default
-          let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/survey';
+          let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/dashboard';
           // Redirect the user
           this.router.navigate([redirect]);
         });
 
 
-      }
+      }else{
+
+        this.message = "Account already exists for this email!";
+
+
+     }
+
+
+
     });
   }
 

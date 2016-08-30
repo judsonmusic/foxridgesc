@@ -20,8 +20,6 @@ export class AuthGuard implements CanActivate {
 
         if (user && user._id) {
           this.authService.isLoggedIn = true;
-          // Store the attempted URL for redirectin
-          //console.log('Trying to go to ', state.url);
           this.authService.redirectUrl = state.url || '/dashboard';
           this.router.navigate([this.authService.redirectUrl]);
           return true;

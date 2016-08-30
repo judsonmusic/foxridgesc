@@ -5,7 +5,7 @@
 
 hr {
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 
 p {
@@ -110,6 +110,12 @@ footer {
   right: 0;
   z-index: 999;
 
+}
+
+.form-inline input{
+
+  margin: 10px;
+  min-width: 234px;
 }
 
 .col-xs-4.action-icons{

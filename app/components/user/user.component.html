@@ -1,20 +1,10 @@
-<form class="form">
-  <p *ngIf="!loggedIn">Create an account below.</p>
-  <p *ngIf="loggedIn">You are logged in. Please check your account information...</p>
+<form class="form" novalidate (submit)="addAccount(user)">
+  <alert type="info" *ngIf="message" type="danger">{{message}}</alert>
   <div class="form-group">
   <input class="form-control" type="text" name="firstName" [(ngModel)]="user.firstName" placeholder="First Name"/>
     </div>
   <div class="form-group">
   <input class="form-control" type="text" name="lastName" [(ngModel)]="user.lastName" placeholder="Last Name"/>
-  </div>
-  <div class="form-group">
-    <input class="form-control" type="text" name="birthDate" [(ngModel)]="user.birthDate" placeholder="99/99/9999"/>
-  </div>
-  <div class="form-group">
-    <input tabindex="4" type="radio" id="1" name="gender" value="1"/>
-    <label [attr.for]="1"><span></span>Male</label>
-    <input tabindex="5" type="radio" id="2" name="gender" value="0"/>
-    <label [attr.for]="2"><span></span>Female</label>
   </div>
   <div class="form-group">
   <input class="form-control" type="text" name="email" [(ngModel)]="user.email" placeholder="Email"/>
@@ -23,10 +13,7 @@
   <input class="form-control" type="text" name="password" [(ngModel)]="user.password" placeholder="Password"/>
   </div>
   <div class="form-group">
-  <button class="btn btn-primary"  type="submit" *ngIf="loggedIn" (click)="updateAccount(user)">Update Account</button>
-  </div>
-  <div class="form-group">
-  <button class="btn btn-primary" type="submit" *ngIf="!loggedIn" (click)="addAccount(user)">Create Account</button>
+  <button class="btn btn-primary" type="submit">Create Account</button>
   </div>
 </form>
 

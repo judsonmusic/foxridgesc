@@ -1,15 +1,23 @@
-var mongoose     = require('mongoose');
-var Schema       = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 
 var date = new Date();
-var AccountSchema   = new Schema({
+var AccountSchema = new Schema({
     firstName: String,
     lastName: String,
     email: String,
-    password: String
-},{
-  timestamps: true
+    password: String,
+    familyName: String,
+    address1: String,
+    address2: String,
+    city: String,
+    state: String,
+    zip: String,
+    phone: String,
+    activities: String
+}, {
+    timestamps: true
 });
 
 module.exports = mongoose.model('Account', AccountSchema);
