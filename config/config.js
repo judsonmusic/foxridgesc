@@ -1,6 +1,6 @@
 module.exports = {
 
     'secret': 'fr',
-    'database': 'mongodb://judsondesigns.dyndns.org/foxridge'
+    'database': 'mongodb://administrator:Morr2sse12@judsondesigns.dyndns.org/foxridge'
 
 };
