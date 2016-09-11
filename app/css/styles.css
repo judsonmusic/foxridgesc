@@ -415,9 +415,22 @@ ul.swatch-list{
 .home-image{
 
 
-  background: grey;
   min-height: 240px;
 
+}
+
+.img_thumb {
+    float: left;
+    height: 60px;
+    margin-bottom: 5px;
+    margin-left: 9px;
+    position: relative;
+    width: 60px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 /*MEDIA QUERIES*/

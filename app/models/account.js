@@ -15,7 +15,8 @@ var AccountSchema = new Schema({
     state: String,
     zip: String,
     phone: String,
-    activities: String
+    activities: String,
+    image: String
 }, {
     timestamps: true
 });

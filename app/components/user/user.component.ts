@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {UserService} from "./../user-service/user.service";
 import {AuthService} from "./../auth/auth.service";
+import {LowercaseDirective} from "../pipes/lowercase.pipe";
 
 @Component({
   selector: 'user-component',
-  templateUrl: "/app/components/user/user.component.html"
+  templateUrl: "/app/components/user/user.component.html",
+  directives: [LowercaseDirective]
 })
 export class UserComponent {
 

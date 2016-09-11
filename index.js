@@ -36,13 +36,35 @@ app.post('/upload', function(req, res) {
     }
 
     sampleFile = req.files.sampleFile;
+    var filename = req.body.id + sampleFile.name;
+    console.log('File for upload!', sampleFile.name);
 
-        sampleFile.mv('./app/uploads/' + req.body.id + '.' + sampleFile.name.split('.').pop(), function (err) {
+        sampleFile.mv('./app/uploads/' + filename, function (err) {
             if (err) {
                 res.status(500).send(err);
             }
             else {
-                res.send({"message" : 'File uploaded!'});
+
+                // update the account with this id (accessed at PUT http://localhost:8080/api/accounts/:account_id)
+                    Account.findById(req.body.id, function (err, account) {
+
+                        if (err)
+                            return res.send(err);
+
+                        account.image = filename;
+
+                        // save the account
+                        account.save(function (err, account) {
+                            if (err)
+                                return res.send(err);
+
+                            res.json({message: 'Account updated!', account: account}).end;
+
+                        });
+
+                    });
+
+                //res.send({"message" : 'File uploaded!', "image": req.body.id + '.' + sampleFile.name.split('.').pop()});
             }
         });
 
@@ -166,7 +188,7 @@ router.route('/accounts')
 
                 accounts.map(function (x) {
 
-                    if (typeof x.familyName != 'undefined') profiles.push({_id: x._id, familyName: x.familyName, lastName: x.lastName});
+                    if (typeof x.familyName != 'undefined') profiles.push({_id: x._id, familyName: x.familyName, lastName: x.lastName, image: x.image});
 
                 });
 
@@ -187,7 +209,6 @@ router.route('/accounts')
         account.email = req.body.email;
         account.username = req.body.username;
         account.password = req.body.password;
-        account.assessment = req.body.assessment;
 
 
         // save the bear and check for errors
@@ -240,6 +261,7 @@ router.route('/accounts/:account_id')
             account.zip = req.body.zip || "";
             account.phone = req.body.phone || "";
             account.activities = req.body.activities || "";
+            account.image = req.body.image || "";
 
 
             // save the account
@@ -285,7 +307,8 @@ router.route('/family/:account_id')
                     state: account.state,
                     zip: account.zip,
                     phone: account.phone,
-                    activities: account.activities
+                    activities: account.activities,
+                    image: account.image
 
                 };
 

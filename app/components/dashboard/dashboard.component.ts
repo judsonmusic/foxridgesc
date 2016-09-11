@@ -12,7 +12,6 @@ export class DashboardComponent {
 
   public documents: any;
   public profiles: any;
-  public files: any;
 
   constructor(public docsService: DocsService, public userService: UserService, public router: Router){
 
@@ -25,6 +24,8 @@ export class DashboardComponent {
 
     this.userService.getAll().subscribe((profiles)=>{
 
+      console.log(profiles);
+
       this.profiles = profiles;
 
 
@@ -32,21 +33,6 @@ export class DashboardComponent {
 
   }
 
-  uploadFile($event){
-
-   this.userService.uploadFile(this.files).then((res)=>{
-
-     console.log(res);
-
-   })
-
-  }
-
-  setFiles(event){
-
-    this.files = event.srcElement.files;
-    console.log(this.files);
-  }
 
 
   viewFamily(id){
